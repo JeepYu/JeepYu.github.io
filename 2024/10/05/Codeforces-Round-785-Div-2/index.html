@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Problem - A - Codeforces题意：给你一个字符串，$alice$可以删除偶数个连续的字符，$bob$可以删除奇数个连续的字符，$alice $先删除。每删除一个字符$cost+&#x3D;s[i]-‘a’+1$,问最后谁赢，两者差值是多少。 思路：假如字符串长度为偶数，那一定是alice赢。答案就是整个字符串的$cost$。假如是奇数，alice把它删除的只剩下一个，这个字符在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Codeforces Round #785 (Div. 2)">
+<meta property="og:url" content="http://example.com/2024/10/05/Codeforces-Round-785-Div-2/index.html">
+<meta property="og:site_name" content="JeepYu blog">
+<meta property="og:description" content="Problem - A - Codeforces题意：给你一个字符串，$alice$可以删除偶数个连续的字符，$bob$可以删除奇数个连续的字符，$alice $先删除。每删除一个字符$cost+&#x3D;s[i]-‘a’+1$,问最后谁赢，两者差值是多少。 思路：假如字符串长度为偶数，那一定是alice赢。答案就是整个字符串的$cost$。假如是奇数，alice把它删除的只剩下一个，这个字符在">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\54910\AppData\Roaming\Typora\typora-user-images\image-20220924204734278.png">
+<meta property="article:published_time" content="2024-10-05T10:09:24.000Z">
+<meta property="article:modified_time" content="2024-10-05T10:10:11.070Z">
+<meta property="article:author" content="Jeep Yu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\54910\AppData\Roaming\Typora\typora-user-images\image-20220924204734278.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Codeforces Round #785 (Div. 2)</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/JeepYu">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/10/05/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&text=Codeforces Round #785 (Div. 2)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&is_video=false&description=Codeforces Round #785 (Div. 2)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Codeforces Round #785 (Div. 2)&body=Check out this article: http://example.com/2024/10/05/Codeforces-Round-785-Div-2/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&name=Codeforces Round #785 (Div. 2)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&t=Codeforces Round #785 (Div. 2)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-A-Codeforces"><span class="toc-number">1.</span> <span class="toc-text">Problem - A - Codeforces</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">题意：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">代码：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-B-Codeforces"><span class="toc-number">2.</span> <span class="toc-text">Problem - B - Codeforces</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F%EF%BC%9A-1"><span class="toc-number">2.1.</span> <span class="toc-text">题意：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A-1"><span class="toc-number">2.2.</span> <span class="toc-text">思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A-1"><span class="toc-number">2.3.</span> <span class="toc-text">代码：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-C-Codeforces"><span class="toc-number">3.</span> <span class="toc-text">Problem - C - Codeforces</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F%EF%BC%9A-2"><span class="toc-number">3.1.</span> <span class="toc-text">题意：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A-2"><span class="toc-number">3.2.</span> <span class="toc-text">思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A-2"><span class="toc-number">3.3.</span> <span class="toc-text">代码：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-D-Codeforces"><span class="toc-number">4.</span> <span class="toc-text">Problem - D - Codeforces</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F%EF%BC%9A-3"><span class="toc-number">4.1.</span> <span class="toc-text">题意：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A-3"><span class="toc-number">4.2.</span> <span class="toc-text">思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A-3"><span class="toc-number">4.3.</span> <span class="toc-text">代码：</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Codeforces Round #785 (Div. 2)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Jeep Yu</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-10-05T10:09:24.000Z" class="dt-published" itemprop="datePublished">2024-10-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Problem-A-Codeforces"><a href="#Problem-A-Codeforces" class="headerlink" title="Problem - A - Codeforces"></a><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1673/problem/A">Problem - A - Codeforces</a></h1><h2 id="题意："><a href="#题意：" class="headerlink" title="题意："></a>题意：</h2><p>给你一个字符串，$alice$可以删除偶数个连续的字符，$bob$可以删除奇数个连续的字符，$alice $先删除。每删除一个字符$cost+&#x3D;s[i]-‘a’+1$,问最后谁赢，两者差值是多少。</p>
+<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><p>假如字符串长度为偶数，那一定是alice赢。答案就是整个字符串的$cost$。假如是奇数，alice把它删除的只剩下一个，这个字符在s[0]和s[n-1]中选。让bob选择小的那个。最后得出两者的值，比较得出答案。</p>
+<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn = <span class="number">1e5</span> + <span class="number">10</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PI 3.14159265358979323846;</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s;</span><br><span class="line">    cin &gt;&gt; s;</span><br><span class="line">    <span class="type">int</span> n = s.<span class="built_in">length</span>();</span><br><span class="line">    <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        ans += (s[i] - <span class="string">&#x27;a&#x27;</span> + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (n % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Alice &quot;</span> &lt;&lt; ans &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b;</span><br><span class="line">        <span class="keyword">if</span> (s[<span class="number">0</span>] &gt; s[n - <span class="number">1</span>])</span><br><span class="line">        &#123;</span><br><span class="line">            a = ans - (s[n - <span class="number">1</span>] - <span class="string">&#x27;a&#x27;</span> + <span class="number">1</span>);</span><br><span class="line">            b = (s[n - <span class="number">1</span>] - <span class="string">&#x27;a&#x27;</span> + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            a = ans - (s[<span class="number">0</span>] - <span class="string">&#x27;a&#x27;</span> + <span class="number">1</span>);</span><br><span class="line">            b = (s[<span class="number">0</span>] - <span class="string">&#x27;a&#x27;</span> + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// cout &lt;&lt; (s[0] - &#x27;a&#x27; + 1) &lt;&lt; (s[n - 1] - &#x27;a&#x27; + 1) &lt;&lt; endl;</span></span><br><span class="line">        <span class="comment">// cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b &lt;&lt; endl;</span></span><br><span class="line">        <span class="keyword">if</span> (a &gt; b)</span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;Alice &quot;</span> &lt;&lt; a - b &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;Bob &quot;</span> &lt;&lt; b - a &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    cout.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="type">int</span> Times;</span><br><span class="line">    cin &gt;&gt; Times;</span><br><span class="line">    <span class="keyword">while</span> (Times--)</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Problem-B-Codeforces"><a href="#Problem-B-Codeforces" class="headerlink" title="Problem - B - Codeforces"></a><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1673/problem/B">Problem - B - Codeforces</a></h1><h2 id="题意：-1"><a href="#题意：-1" class="headerlink" title="题意："></a>题意：</h2><p>给你一个字符串，要求对于这个字符串里面所有的子串，都要满足在这个字符串所有出现过的字符在这个子串出现过的次数相差不超过1.满足要求输出YES，否则NO。</p>
+<p>例子：</p>
+<p>对于字符串$abc$有：</p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>ft(a)</th>
+<th>ft(b)</th>
+<th>ft(c)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ab</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>abc</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>b</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>bc</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>c</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>因此$abc$是满足条件的。所有的相差值不超过1.</p>
+<h2 id="思路：-1"><a href="#思路：-1" class="headerlink" title="思路："></a>思路：</h2><p>最简单的：对于一个字符串所有元素的都只出现了一次的，肯定是满足条件的。而出现两次的话，我们就应该对两个相同字符之间的字符进行判断，看看是不是字符串上除了两边的字符所有的字符都出现了且只出现了一次。这里我采用了对字符串里面不同的字符进行赋值并求和得出sum。因为我只需要判断里面包含所有的字符就行，不关心它的位置，因此在判断两相同字符里面时我只需求和，看看和$sum-(s[i]-‘a’+1)$是否相同。不同就说明不满足条件。对于找前一个位置相同的字符，我用一个栈来存它，每次都$push$进去，要比对的时候取$top$出来。</p>
+<p>![C620636EA8A83B9D54C59C7ECB1854CA](E:\the king of ACM\Codeforces Round #785 (Div. 2)\C620636EA8A83B9D54C59C7ECB1854CA.png)</p>
+<h2 id="代码：-1"><a href="#代码：-1" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn = <span class="number">1e5</span> + <span class="number">10</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PI 3.14159265358979323846;</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line"><span class="type">int</span> num[<span class="number">30</span>];</span><br><span class="line"><span class="type">bool</span> flag[<span class="number">30</span>];</span><br><span class="line">stack&lt;<span class="type">int</span>&gt; st[<span class="number">30</span>];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(num, <span class="number">0</span>, <span class="built_in">sizeof</span>(num));</span><br><span class="line">    <span class="built_in">memset</span>(flag, <span class="number">0</span>, <span class="built_in">sizeof</span>(flag));</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)</span><br><span class="line">        <span class="keyword">while</span> (st[i].<span class="built_in">size</span>() != <span class="number">0</span>)</span><br><span class="line">            st[i].<span class="built_in">pop</span>();</span><br><span class="line">    string s;</span><br><span class="line">    cin &gt;&gt; s;</span><br><span class="line">    <span class="type">int</span> n = s.<span class="built_in">length</span>();</span><br><span class="line">    <span class="type">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> tmp = s[i] - <span class="string">&#x27;a&#x27;</span> + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (flag[tmp] == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            sum += tmp;</span><br><span class="line">            flag[tmp] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> tmp = s[i] - <span class="string">&#x27;a&#x27;</span> + <span class="number">1</span>;</span><br><span class="line">        num[tmp]++;</span><br><span class="line">        <span class="keyword">if</span> (num[tmp] &gt; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> j;</span><br><span class="line">            <span class="type">int</span> sum1 = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (j = st[tmp].<span class="built_in">top</span>() + <span class="number">1</span>; j &lt; i; j++)</span><br><span class="line">                sum1 += s[j] - <span class="string">&#x27;a&#x27;</span> + <span class="number">1</span>;</span><br><span class="line">            <span class="comment">// cout &lt;&lt; st[tmp].top() + 1 &lt;&lt; &quot; &quot; &lt;&lt; sum1 &lt;&lt; &quot;||&quot; &lt;&lt; endl;</span></span><br><span class="line">            <span class="keyword">if</span> (sum1 != sum - tmp)</span><br><span class="line">            &#123;</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;NO&quot;</span> &lt;&lt; endl;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        st[tmp].<span class="built_in">push</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;YES&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    cout.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="type">int</span> Times;</span><br><span class="line">    cin &gt;&gt; Times;</span><br><span class="line">    <span class="keyword">while</span> (Times--)</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Problem-C-Codeforces"><a href="#Problem-C-Codeforces" class="headerlink" title="Problem - C - Codeforces"></a><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1673/problem/C">Problem - C - Codeforces</a></h1><h2 id="题意：-2"><a href="#题意：-2" class="headerlink" title="题意："></a>题意：</h2><p>求一个数被回文数组成的方法数。$(n\leq 4\times 10^4)$</p>
+<p>例子：对于$n&#x3D;5$:</p>
+<ul>
+<li>$5&#x3D;1+1+1+1+1$</li>
+<li>$5&#x3D;1+1+1+2$</li>
+<li>$5&#x3D;1+2+2$</li>
+<li>$5&#x3D;1+1+3$</li>
+<li>$5&#x3D;2+3$</li>
+<li>$5&#x3D;1+4$</li>
+<li>$5&#x3D;5$</li>
+</ul>
+<h2 id="思路：-2"><a href="#思路：-2" class="headerlink" title="思路："></a>思路：</h2><p>这道题我当时一看就觉得像是dp，可惜这部分的dp题做的不够多，所以是dp也不会。</p>
+<p>这个n不大，1e4，其实是可以大遍历预处理然后得出答案的。怎么设置dp捏？而且我们可以(然而我看不出来)看出回文数并不多，就在1e4以下的也就499个，因此我们先遍历一遍把回文数数组得出来，然后我们让i表示为我们要求的数，j表示为对于回文数的前j个，dp值就是次数。那怎么写状态方程捏？要么选要么不选嘛。选不了的时候，$dp[i][j]&#x3D;dp[i][j-1]$，选的了的时候：$dp[i][j]&#x3D;dp[i][j-1]+dp[i-v[j]][j]$。</p>
+<p>对于j的遍历，因为我们的$dp[i][j]&#x3D;dp[i][j-1]+dp[i-v[j]][j]$,因此我们得从$j&#x3D;1$开始遍历。</p>
+<h2 id="代码：-2"><a href="#代码：-2" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> maxn = <span class="number">4e4</span> + <span class="number">10</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PI 3.14159265358979323846;</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line">ll mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line">ll dp[maxn][<span class="number">500</span>]; <span class="comment">// dp[i][j]为前j 个镜像数组合得到数 i  的组合数</span></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; v;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">fun</span><span class="params">(ll x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; v;</span><br><span class="line">    <span class="keyword">while</span> (x != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        v.<span class="built_in">push_back</span>(x % <span class="number">10</span>);</span><br><span class="line">        x = x / <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> n = v.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n / <span class="number">2</span>; i++)</span><br><span class="line">        <span class="keyword">if</span> (v[i] != v[n - i - <span class="number">1</span>])</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= maxn; i++)</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">fun</span>(i))</span><br><span class="line">            v.<span class="built_in">push_back</span>(i);</span><br><span class="line">    <span class="comment">// cout &lt;&lt; v.size() &lt;&lt; endl;</span></span><br><span class="line">    <span class="comment">//先初始化</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; v.<span class="built_in">size</span>(); i++)</span><br><span class="line">        dp[i][<span class="number">0</span>] = dp[<span class="number">0</span>][i] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; maxn; i++) <span class="comment">// i循环将答案遍历一遍</span></span><br><span class="line">    &#123;</span><br><span class="line">        dp[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; v.<span class="built_in">size</span>(); j++) <span class="comment">// j循环将v里面的所有排列组合遍历一遍</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= v[j])</span><br><span class="line">                dp[i][j] = (dp[i][j - <span class="number">1</span>] + dp[i - v[j]][j]) % mod;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            //要么数i只从前j − 1个镜像数组合得到；</span></span><br><span class="line"><span class="comment">            要么可以使用前j个镜像数组合i − p [ j ]（p [ j ]是第 j jj 小的镜像数），</span></span><br><span class="line"><span class="comment">            之后再加上一个 p [ j ]得到</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                dp[i][j] = dp[i][j - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    cout &lt;&lt; dp[n][v.<span class="built_in">size</span>() - <span class="number">1</span>] &lt;&lt; endl; <span class="comment">// v.size()最后一位是v.size() - 1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    cout.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">fun1</span>();</span><br><span class="line">    <span class="type">int</span> Times;</span><br><span class="line">    cin &gt;&gt; Times;</span><br><span class="line">    <span class="keyword">while</span> (Times--)</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Problem-D-Codeforces"><a href="#Problem-D-Codeforces" class="headerlink" title="Problem - D - Codeforces"></a><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1673/problem/D">Problem - D - Codeforces</a></h1><h2 id="题意：-3"><a href="#题意：-3" class="headerlink" title="题意："></a>题意：</h2><p>这里有两个等差数组$a,b$，它们的交集得到了等差数列c。现在你知道了b,c。求a可能存在的个数，假如a不存在，输出0.假如a有无限多，输出-1.</p>
+<h2 id="思路：-3"><a href="#思路：-3" class="headerlink" title="思路："></a>思路：</h2><p><img src="C:\Users\54910\AppData\Roaming\Typora\typora-user-images\image-20220924204734278.png" alt="image-20220924204734278">先来看看这数据的大小，这注定是不能用数组存的，必须进行分析。</p>
+<p>首先我们先分析下什么时候得到0.就是c中有一部分不属于b。这怎么得到？</p>
+<ol>
+<li>c的公差不是b的公差的倍数</li>
+<li>c的公差是b的公差的倍数 但是b没有把c完全包括在内</li>
+</ol>
+<p>化为表达式就这样：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (dc % db != <span class="number">0</span> || (c1 &lt; b1 || (b1 + (nb - <span class="number">1</span>) * db) &lt; (c1 + (nc - <span class="number">1</span>) * dc) || (c1 - b1) % db != <span class="number">0</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="number">0</span> &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>那什么时候等于-1捏？</p>
+<p>**对于c1，它的c1-dc要么就是在b里面，要么就是$\leq b1$**，只要c1-dc在b的范围外，那不就是可以无穷的变大吗？同理$c1+(n-1)\times dc+dc$，假如它坐落于b的外边就输出-1.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (b1 &gt; c1 - dc || (b1 + (nb - <span class="number">1</span>) * db &lt; c1 + (nc - <span class="number">1</span>) * dc + dc))</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="number">-1</span> &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来就要计算除以上两种情况下的答案，假设a公差为d3。</p>
+<p>先讨论特殊情况：d1&#x3D;&#x3D;d2</p>
+<p>例如序列b,c。(c序列为括号内的元素序列)</p>
+<p> -6  (0)  (6)  (12)  18    d1&#x3D;&#x3D;d2&#x3D;&#x3D;6</p>
+<p>前面明确过当一个等差数列是另一个等差数列的一部分时，那么前者公差一定是后者公差的倍数</p>
+<p>所以d3一定是d2的因子，d3可能值：1 2 3 6  显然都满足</p>
+<p>*所以发现如果 d1&#x3D;&#x3D;d2 那么d3的所有可能为d2的所有因子。</p>
+<p>具体答案如何算？</p>
+<p>假设公差为3</p>
+<p> a序列可能是</p>
+<p>  0 3 6 9 12</p>
+<p>  0 3 6 9 12 15</p>
+<p> -3 0 3 6 9 12</p>
+<p> -3 0 3 6 9 12 15  四种。</p>
+<p>a序列所有可能可以由序列 0 3 6 9 12延伸得到</p>
+<p>延申左边的可能情况为 可延申的数字个数(d2&#x2F;d3 -1) + 1 &#x3D; d2&#x2F;d3</p>
+<p>右边同理，所有情况为左右两类乘积；d2&#x2F;d3 * d2&#x2F;d3 。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i * i &lt;= d2; i++)</span><br><span class="line">&#123;</span><br><span class="line">       <span class="keyword">if</span> (d2 % i == <span class="number">0</span>)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="type">int</span> x = (d2 / i) % MOD;</span><br><span class="line">        ans = (ans + (x * x) % MOD) % MOD;</span><br><span class="line">        <span class="keyword">if</span> (i * i != d2)</span><br><span class="line">            ans = (ans + (i * i) % MOD) % MOD;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果d1!&#x3D;d2 ,假设a公差为d3</p>
+<p>　a，b 序列包含c序列 满足： d2%d3!&#x3D;0 ,d3%d2!&#x3D;0  d1!&#x3D;d2</p>
+<p>*那么d3 和 d1 就不能存在倍数关系，而且 d1 和 d3的 lcm 必须是d2</p>
+<p>有一种特殊情况：d3&#x3D;&#x3D;d2 时虽然不满足d3%d2!&#x3D;0 实际与d1并无冲突</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i * i &lt;= d2; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (d2 % i == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (d1 % i != <span class="number">0</span> &amp;&amp; i % d1 != <span class="number">0</span> &amp;&amp; <span class="built_in">lcm</span>(i, d1) == d2)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">int</span> x = (d2 / i) % MOD;</span><br><span class="line">                ans = (ans + (x * x) % MOD) % MOD;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> y = d2 / i;</span><br><span class="line">            <span class="keyword">if</span> (i * i != d2)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (y == d2 || y % d1 != <span class="number">0</span> &amp;&amp; d1 % y != <span class="number">0</span> &amp;&amp; <span class="built_in">lcm</span>(y, d1) == d2)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="type">int</span> x = (d2 / y) % MOD;</span><br><span class="line">                    ans = (ans + (x * x) % MOD) % MOD;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="代码：-3"><a href="#代码：-3" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MOD = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">lcm</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (a * b) / __gcd(a, b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> a1, d1, n1;</span><br><span class="line">    <span class="type">int</span> a2, d2, n2;</span><br><span class="line">    cin &gt;&gt; a1 &gt;&gt; d1 &gt;&gt; n1;</span><br><span class="line">    cin &gt;&gt; a2 &gt;&gt; d2 &gt;&gt; n2;</span><br><span class="line">    <span class="keyword">if</span> (d2 % d1 != <span class="number">0</span> || (a2 &lt; a1 || a2 + (n2 - <span class="number">1</span>) * d2 &gt; a1 + (n1 - <span class="number">1</span>) * d1) || (<span class="built_in">abs</span>(a2 - a1) % d1 != <span class="number">0</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="number">0</span> &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ((a1 &gt; a2 - d2 || a1 + (n1 - <span class="number">1</span>) * d1 &lt; a2 + (n2 - <span class="number">1</span>) * d2 + d2))</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="number">-1</span> &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i * i &lt;= d2; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (d2 % i == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">lcm</span>(i, d1) == d2)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">int</span> x = (d2 / i) % MOD;</span><br><span class="line">                ans = (ans + (x * x) % MOD) % MOD;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> y = d2 / i;</span><br><span class="line">            <span class="keyword">if</span> (i * i != d2 &amp;&amp; <span class="built_in">lcm</span>(y, d1) == d2)</span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line">                <span class="type">int</span> x = (d2 / y) % MOD;</span><br><span class="line">                ans = (ans + (x * x) % MOD) % MOD;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">main</span>()</span><br><span class="line">&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="type">int</span> t;</span><br><span class="line">    <span class="keyword">for</span> (cin &gt;&gt; t; t; t--)</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/JeepYu">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-A-Codeforces"><span class="toc-number">1.</span> <span class="toc-text">Problem - A - Codeforces</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">题意：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">代码：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-B-Codeforces"><span class="toc-number">2.</span> <span class="toc-text">Problem - B - Codeforces</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F%EF%BC%9A-1"><span class="toc-number">2.1.</span> <span class="toc-text">题意：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A-1"><span class="toc-number">2.2.</span> <span class="toc-text">思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A-1"><span class="toc-number">2.3.</span> <span class="toc-text">代码：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-C-Codeforces"><span class="toc-number">3.</span> <span class="toc-text">Problem - C - Codeforces</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F%EF%BC%9A-2"><span class="toc-number">3.1.</span> <span class="toc-text">题意：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A-2"><span class="toc-number">3.2.</span> <span class="toc-text">思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A-2"><span class="toc-number">3.3.</span> <span class="toc-text">代码：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Problem-D-Codeforces"><span class="toc-number">4.</span> <span class="toc-text">Problem - D - Codeforces</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F%EF%BC%9A-3"><span class="toc-number">4.1.</span> <span class="toc-text">题意：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A-3"><span class="toc-number">4.2.</span> <span class="toc-text">思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A-3"><span class="toc-number">4.3.</span> <span class="toc-text">代码：</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&text=Codeforces Round #785 (Div. 2)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&is_video=false&description=Codeforces Round #785 (Div. 2)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Codeforces Round #785 (Div. 2)&body=Check out this article: http://example.com/2024/10/05/Codeforces-Round-785-Div-2/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&title=Codeforces Round #785 (Div. 2)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&name=Codeforces Round #785 (Div. 2)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/10/05/Codeforces-Round-785-Div-2/&t=Codeforces Round #785 (Div. 2)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    Jeep Yu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/JeepYu">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
