@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang=en>
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>redis数据结构 | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Redis数据结构1.SDS（简单动态字符串）本质上这是算法里面的使用空间换取时间的做法，相比于C语言里面的字符数组（注意不是字符串string），Redis里面的字符串多添加了字符串长度的值（len）以及记录了数组所剩余的空间（free），这样的话在访问字符串长度的时候就不需要遍历整个数组了，同时在内存分配上会做的更好。 记录数组所剩余的空间可以保证在字符串进行相加的时候不会溢出导致与其他内存地">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Redis数据结构1.SDS（简单动态字符串）本质上这是算法里面的使用空间换取时间的做法，相比于C语言里面的字符数组（注意不是字符串string），Redis里面的字符串多添加了字符串长度的值（len）以及记录了数组所剩余的空间（free），这样的话在访问字符串长度的时候就不需要遍历整个数组了，同时在内存分配上会做的更好。 记录数组所剩余的空间可以保证在字符串进行相加的时候不会溢出导致与其他内存地">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis数据结构">
 <meta property="og:url" content="http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.html">
@@ -18,87 +18,150 @@
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>redis数据结构</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
 <link rel="stylesheet" href="/css/style.css">
 
-  
+    <!-- persian styles -->
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
 <meta name="generator" content="Hexo 7.3.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&text=redis数据结构"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&is_video=false&description=redis数据结构"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis数据结构&body=Check out this article: http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&name=redis数据结构&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&t=redis数据结构"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">Redis数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-SDS%EF%BC%88%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">1.SDS（简单动态字符串）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#API%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">API的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%93%BE%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text">2.链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AD%97%E5%85%B8"><span class="toc-number">1.3.</span> <span class="toc-text">3.字典</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E5%AD%97%E5%85%B8%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1字典实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%EF%BC%9A"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">哈希表：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%8A%82%E7%82%B9%EF%BC%9A"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">哈希节点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E5%85%B8"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">字典</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%95%A3%E5%88%97%E8%A1%A8%E5%86%B2%E7%AA%81"><span class="toc-number">1.3.2.</span> <span class="toc-text">解决散列表冲突</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%93%88%E5%B8%8C"><span class="toc-number">1.3.3.</span> <span class="toc-text">计算哈希</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rehash"><span class="toc-number">1.3.4.</span> <span class="toc-text">rehash</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E8%B7%B3%E8%B7%83%E8%A1%A8"><span class="toc-number">1.4.</span> <span class="toc-text">4.跳跃表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88-intset"><span class="toc-number">1.5.</span> <span class="toc-text">5.整数集合(intset)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88%E5%8D%87%E7%BA%A7"><span class="toc-number">1.5.0.1.</span> <span class="toc-text">整数集合升级</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88%E6%B2%A1%E6%9C%89%E9%99%8D%E7%BA%A7"><span class="toc-number">1.5.1.</span> <span class="toc-text">整数集合没有降级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88API"><span class="toc-number">1.5.2.</span> <span class="toc-text">整数集合API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8"><span class="toc-number">1.6.</span> <span class="toc-text">6.压缩列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E9%94%81%E6%9B%B4%E6%96%B0"><span class="toc-number">1.6.1.</span> <span class="toc-text">连锁更新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7"><span class="toc-number">1.7.</span> <span class="toc-text">7.</span></a></li></ol></li></ol>
       </div>
-    </div>
-  </div>
-</header>
+    
+  </span>
+</div>
 
-      <div class="outer">
-        <section id="main"><article id="post-redis数据结构/redis的数据结构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="article-date">
-  <time class="dt-published" datetime="2021-06-10T08:35:20.000Z" itemprop="datePublished">2021-06-10</time>
-</a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <div class="content index py4 ">
         
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      redis数据结构
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        redis数据结构
     </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-06-10T08:35:20.000Z" class="dt-published" itemprop="datePublished">2021-06-10</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Java/">Java</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%8E%9F%E5%88%9B/" rel="tag">原创</a>
+    </div>
+
+
+    </div>
+  </header>
   
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Redis数据结构"><a href="#Redis数据结构" class="headerlink" title="Redis数据结构"></a>Redis数据结构</h1><h2 id="1-SDS（简单动态字符串）"><a href="#1-SDS（简单动态字符串）" class="headerlink" title="1.SDS（简单动态字符串）"></a>1.SDS（简单动态字符串）</h2><p>本质上这是算法里面的使用空间换取时间的做法，相比于C语言里面的字符数组（注意不是字符串string），Redis里面的字符串多添加了字符串长度的值（len）以及记录了数组所剩余的空间（free），这样的话在访问字符串长度的时候就不需要遍历整个数组了，同时在内存分配上会做的更好。</p>
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Redis数据结构"><a href="#Redis数据结构" class="headerlink" title="Redis数据结构"></a>Redis数据结构</h1><h2 id="1-SDS（简单动态字符串）"><a href="#1-SDS（简单动态字符串）" class="headerlink" title="1.SDS（简单动态字符串）"></a>1.SDS（简单动态字符串）</h2><p>本质上这是算法里面的使用空间换取时间的做法，相比于C语言里面的字符数组（注意不是字符串string），Redis里面的字符串多添加了字符串长度的值（len）以及记录了数组所剩余的空间（free），这样的话在访问字符串长度的时候就不需要遍历整个数组了，同时在内存分配上会做的更好。</p>
 <p>记录数组所剩余的空间可以保证在字符串进行相加的时候不会溢出导致与其他内存地址的元素产生冲突，主要是，字符数组在进行数组拓充的时候要保证不会干涉到其他内存里面的元素，类比于OS里面的内存分配算法，你要是多分配了空间可能需要集体转移走这部分空间，产生系统调用。这不符合redis这快速的理念。记录下来可以就保证即使超出了字符数组只要添加进来的元素不大于free就不需要系统调用。那万一大于呢？这个时候就必须进行空间预分配，具体的：</p>
 <ol>
 <li>添加的长度小于1MB，长度变成了x,则多分配x，最终长度为$2 \times x+1bit$。</li>
@@ -202,122 +265,143 @@
 <h3 id="连锁更新"><a href="#连锁更新" class="headerlink" title="连锁更新"></a>连锁更新</h3><p>什么情况下会更新的比较慢呢？由于压缩列表里面每个节点的大小是可以改变的，而每个节点又记录了前一个节点的大小，前面节点大小改变可能会导致后面存储前面的大小也进行改变。</p>
 <p>由于我们用1字节表示length&lt;254的节点，用五字节表示length&gt;&#x3D;254的节点。就会导致多个连续的长度在250到253节点之间的节点，假如在第一个节点前面插入一个length&gt;&#x3D;254的节点，然后导致entry1的pre无法用1字节存储，被迫拓展，则它自己长度也变成&gt;&#x3D;254，然后就会递归的往后进行更新。当然实际上很难出现这种情况，所有整体复杂°压缩列表还是可以的。而这最坏的时间复杂度为o($n^2$)。实际过程中压缩列表的复杂度都是为O（n）。其实它挺像链表的，链表可以无序存放（即可以不需要连续存储），但是压缩列表是需要的。</p>
 <h2 id="7"><a href="#7" class="headerlink" title="7."></a>7.</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" data-id="cm1vwea0o0000yw7udbwd0nhw" data-title="redis数据结构" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8E%9F%E5%88%9B/" rel="tag">原创</a></li></ul>
-
-    </footer>
   </div>
-  
-    
-  
 </article>
 
 
-</section>
+
         
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li></ul>
-    </div>
-  </div>
+          <div id="footer-post-container">
+  <div id="footer-post">
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%88%9B/" rel="tag">原创</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/%E5%8E%9F%E5%88%9B/" style="font-size: 10px;">原创</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
+    <div id="nav-footer" style="display: none">
       <ul>
         
-          <li>
-            <a href="/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">redis数据结构</a>
-          </li>
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li>
         
       </ul>
     </div>
-  </div>
 
-  
-</aside>
-        
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">Redis数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-SDS%EF%BC%88%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">1.SDS（简单动态字符串）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#API%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">API的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%93%BE%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text">2.链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AD%97%E5%85%B8"><span class="toc-number">1.3.</span> <span class="toc-text">3.字典</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E5%AD%97%E5%85%B8%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1字典实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%EF%BC%9A"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">哈希表：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%8A%82%E7%82%B9%EF%BC%9A"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">哈希节点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E5%85%B8"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">字典</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%95%A3%E5%88%97%E8%A1%A8%E5%86%B2%E7%AA%81"><span class="toc-number">1.3.2.</span> <span class="toc-text">解决散列表冲突</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%93%88%E5%B8%8C"><span class="toc-number">1.3.3.</span> <span class="toc-text">计算哈希</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rehash"><span class="toc-number">1.3.4.</span> <span class="toc-text">rehash</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E8%B7%B3%E8%B7%83%E8%A1%A8"><span class="toc-number">1.4.</span> <span class="toc-text">4.跳跃表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88-intset"><span class="toc-number">1.5.</span> <span class="toc-text">5.整数集合(intset)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88%E5%8D%87%E7%BA%A7"><span class="toc-number">1.5.0.1.</span> <span class="toc-text">整数集合升级</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88%E6%B2%A1%E6%9C%89%E9%99%8D%E7%BA%A7"><span class="toc-number">1.5.1.</span> <span class="toc-text">整数集合没有降级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88API"><span class="toc-number">1.5.2.</span> <span class="toc-text">整数集合API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8"><span class="toc-number">1.6.</span> <span class="toc-text">6.压缩列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E9%94%81%E6%9B%B4%E6%96%B0"><span class="toc-number">1.6.1.</span> <span class="toc-text">连锁更新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7"><span class="toc-number">1.7.</span> <span class="toc-text">7.</span></a></li></ol></li></ol>
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2024 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&text=redis数据结构"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&is_video=false&description=redis数据结构"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=redis数据结构&body=Check out this article: http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=redis数据结构"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&name=redis数据结构&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/06/10/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&t=redis数据结构"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
     </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
   </div>
 </footer>
 
     </div>
-    <nav id="mobile-nav">
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
 
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+<script src="/js/main.js"></script>
 
+<!-- search -->
 
+<!-- Baidu Analytics -->
 
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<!-- Cloudflare Analytics -->
 
+<!-- Disqus Comments -->
 
+<!-- utterances Comments -->
 
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
 </body>
 </html>
